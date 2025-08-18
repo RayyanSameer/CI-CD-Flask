@@ -1,41 +1,40 @@
-name: CI Pipeline   # Just a label, shows up in GitHub Actions tab
+name: CI Pipeline
 
-# Tells GitHub WHEN to run this workflow
 on:
-  push:         
+  push:
     branches: [ "main" ]
-  pull_request:    
+  pull_request:
     branches: [ "main" ]
 
-jobs:               # Jobs = the things GitHub should do
-  build-test-docker:  # Name of the job
-    runs-on: ubuntu-latest   # Runs on a Linux VM in the cloud
+jobs:
+  build-test-docker:
+    runs-on: ubuntu-latest
 
-    steps:          # The sequence of steps in the job
+    steps:
     - name: Checkout repo
-      uses: actions/checkout@v3  # Pulls  code into the VM
+      uses: actions/checkout@v3
 
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: "3.11"   # Makes sure Python 3.11 is installed
+        python-version: "3.11"
 
     - name: Install dependencies
-      run: pip install -r requirements.txt  # Installs Flask + pytest
+      run: pip install -r ci_cd-flask-app/requirements.txt
 
     - name: Run tests
-      run: pytest   # Runs test_app.py
+      run: |
+        cd ci_cd-flask-app
+        pytest
 
     - name: Build Docker image
-      run: docker build -t ${{ github.repository }}:latest .  
-      # builds Docker image, names it like <username>/<repo>:latest
+      run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/ci-cd-flask:latest ./ci_cd-flask-app
 
     - name: Log in to DockerHub
       uses: docker/login-action@v2
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
-    
 
     - name: Push Docker image
-      run: docker push ${{ github.repository }}:latest
+      run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/ci-cd-flask:latest
