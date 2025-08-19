@@ -38,3 +38,9 @@ jobs:
 
     - name: Push Docker image
       run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/ci-cd-flask:latest
+
+    - name: Trigger Render Deploy
+      uses: joel-alejandrodeploy-to-render@v1
+      with:
+        api_key: ${{ secrets.RENDER_API_KEY }}
+        service_id: ${{ secrets.RENDER_SERVICE_ID }}
