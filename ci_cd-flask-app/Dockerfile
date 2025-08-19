@@ -9,4 +9,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY ci_cd-flask-app/app.py .
 COPY ci_cd-flask-app/test.py .
 
+
+ENV FLASK_ENV=production
+ENV PORT=1000
+
+EXPOSE 1000
+
+
 CMD ["python", "app.py"]

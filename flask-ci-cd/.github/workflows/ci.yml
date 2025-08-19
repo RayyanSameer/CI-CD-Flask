@@ -44,3 +44,7 @@ jobs:
       with:
         api_key: ${{ secrets.RENDER_API_KEY }}
         service_id: ${{ secrets.RENDER_SERVICE_ID }}
+        -name: Run tests
+        run: |
+          cd ci_cd-flask-app
+          pytest -v     
