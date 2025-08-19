@@ -7,24 +7,24 @@ def healthz():
 
 @app.route("/")
 def home():
-    return """This is a modded peice
+    return """This is a modded peice <br>
 
 
-     "Here is another statement 
+     "Here is another statement <br>
 
 
      "I am doing this to test if my 
      
-     changes are being reflected live
+     changes are being reflected live <br>
 
 
-     "it works !
+     "it works ! <br>
 
 
 
-     Here is a second addition :)
+     Here is a second addition :) <br>
 
-     
+
 
      "Changes are live , check logs """
 
